@@ -1,3 +1,5 @@
+
+
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 from app.models.cliente_model import Cliente
@@ -33,9 +35,8 @@ def receber(
     usuario: str = Depends(verificar_token)
 ):
     return db.query(Cliente).all()
-
-from app.schemas.cliente_schema import ClienteSchema
 '''
+
 
 @router.get(
     "/",
@@ -48,4 +49,5 @@ def listar_clientes(
 ):
     clientes = db.query(Cliente).all()
     return [ClienteOut.model_validate(cliente) for cliente in clientes]
+
 

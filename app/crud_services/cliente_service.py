@@ -7,6 +7,56 @@ from typing import List
 
 router = APIRouter()
 
+class ClienteService:
+    def __init__(self,db: Session = Depends(get_db)):
+        self.db = db
+
+    def enviar(self, criar: CriarCliente) -> ClienteOut:
+        novo_cliente = Cliente(**criar.model_dump())
+        self.db.add(novo_cliente)
+        self.db.commit()
+        self.db.refresh(novo_cliente)
+        return ClienteOut.model_validate(novo_cliente)
+    
+
+    def receber_todos_os_clientes(self) -> List[ClienteOut]:
+        clientes = self.db.query(Cliente).all()
+        return [ClienteOut.model_validate(c) for c in clientes]    
+
+
+    def receber_cliente_conta(self,cliente_id: int) -> ClienteComContasSchema:
+        cliente = self.db.query(Cliente).filter(Cliente.id == cliente_id).first()
+        if not cliente:
+            raise HTTPException(status_code=404,detail='Cliente nao encontrado')
+        return ClienteComContasSchema.model_validate(cliente)
+    
+    
+    def trocar_cliente(self,cliente_id: int,at: AtualizarCliente) -> ClienteOut:
+        dados_a_serem_trocados_do_cliente = self.db.query(Cliente).filter(Cliente.id == cliente_id).first()
+        if not dados_a_serem_trocados_do_cliente:
+            raise HTTPException(status_code=404,detail='Cliente nao encontrado')
+    
+        if at.nome is not None:
+            dados_a_serem_trocados_do_cliente.nome = at.nome
+        if at.idade is not None:
+            dados_a_serem_trocados_do_cliente.idade = at.idade
+
+        self.db.commit()
+        self.db.refresh(dados_a_serem_trocados_do_cliente)
+        return dados_a_serem_trocados_do_cliente
+    
+    
+    def deletar_cliente(self,cliente_id: int) -> dict:
+        dados_a_serem_apagados_do_cliente = self.db.query(Cliente).filter(Cliente.id == cliente_id).first()
+        if not dados_a_serem_apagados_do_cliente:
+            raise HTTPException(status_code=404,detail='Cliente nao encontrado')
+    
+        self.db.delete(dados_a_serem_apagados_do_cliente)
+        self.db.commit()
+        return {'mensagem':'Cliente deletado com sucesso'}
+
+
+'''
 @router.get(
     '/{cliente_id}',
     summary='Mostra dados do usuario e suas contas',
@@ -26,11 +76,12 @@ def retornar_cliente(cliente_id: int, db: Session = Depends(get_db)):
     response_model=ClienteOut,
     status_code=status.HTTP_201_CREATED
 )
-def enviar(criar: CriarCliente,db: Session = Depends(get_db)):
+
+def enviar(self.criar: CriarCliente) -> ClienteOut:
     novo_cliente = Cliente(**criar.model_dump())
-    db.add(novo_cliente)
-    db.commit()
-    db.refresh(novo_cliente)
+    self.db.add(novo_cliente)
+    self.db.commit()
+    self.db.refresh(novo_cliente)
     return novo_cliente
 
 
@@ -70,7 +121,8 @@ def trocar(id: int,at: AtualizarCliente,db: Session = Depends(get_db)):
     summary='Deletar um cliente',
     status_code=status.HTTP_200_OK
 )
-def deletar(id: int,db: Session = Depends(get_db)):
+
+def deletar_cliente(id: int,db: Session = Depends(get_db)):
     dados_a_serem_apagados_do_cliente = db.query(Cliente).filter(Cliente.id == id).first()
     if not dados_a_serem_apagados_do_cliente:
         raise HTTPException(status_code=404,detail='Cliente nao encontrado')
@@ -78,3 +130,4 @@ def deletar(id: int,db: Session = Depends(get_db)):
     db.delete(dados_a_serem_apagados_do_cliente)
     db.commit()
     return {'mensagem':'Cliente deletado com sucesso'}
+'''

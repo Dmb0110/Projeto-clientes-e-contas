@@ -1,6 +1,7 @@
 from fastapi import APIRouter
-from app.crud.cliente_crud import router as cliente
-from app.crud.conta_crud import router as conta
+from app.routers2.routers_cliente import router as cliente
+from app.routers2.routers_conta import router as conta
+#from app.crud_services.conta_service import router as conta
 from app.auth.cliente_crud_auth import router as cliente_auth
 from app.auth.conta_crud_auth import router as conta_auth
 from app.auth.jwt import router

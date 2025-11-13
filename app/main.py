@@ -1,24 +1,39 @@
 from fastapi import FastAPI
-
 from app.database.session import Base,engine
 from app.routers import api_router
 
-app = FastAPI()
+#app = FastAPI()
 
 
-'''
+
 app = FastAPI(
     title="API de Clientes e Contas",
     description="Gerencia clientes e suas contas bancárias",
-    version="1.0.0"
+    version="1.0.0",
+    docs_url='/docs',
+    redoc_url='/redoc'
 )
-'''
+
 
 Base.metadata.create_all(bind=engine)
 
 app.include_router(api_router,prefix='')
 
+'''
+Um dev pleno normalmente acrescentaria:
 
+Autenticação/autorização (JWT, OAuth2).
+
+Testes mais robustos (fixtures, banco em memória, mocks).
+
+CI/CD configurado (pipeline automático de testes e deploy).
+
+Documentação mais completa (README com instruções de setup, exemplos de uso da API).
+
+Camadas de serviço para separar lógica de negócio do acesso ao banco.
+
+
+'''
 
 '''
 cliente:

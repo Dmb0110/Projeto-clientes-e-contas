@@ -9,8 +9,10 @@ COMANDOS PRA TESTAR COM PYTEST
 pytest tests/test_crud.py
 pytest -s -v tests/test_crud.py
 pytest
-'''
 
+pytest -s -v tests/test_registro.py
+
+'''
 client = TestClient(app)
 '''
 # Teste POST (criar recurso)
