@@ -1,5 +1,5 @@
 
-
+'''
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 from app.models.cliente_model import Cliente
@@ -24,18 +24,7 @@ def criar_cliente(
     db.commit()
     db.refresh(novo_cliente)
     return novo_cliente
-'''
-@router.get(
-    '/',
-    summary='Rota protegida quer retorna todos os usuarios',
-    response_model=ClienteOut
-)
-def receber(
-    db: Session = Depends(get_db),
-    usuario: str = Depends(verificar_token)
-):
-    return db.query(Cliente).all()
-'''
+
 
 
 @router.get(
@@ -49,5 +38,5 @@ def listar_clientes(
 ):
     clientes = db.query(Cliente).all()
     return [ClienteOut.model_validate(cliente) for cliente in clientes]
-
+'''
 

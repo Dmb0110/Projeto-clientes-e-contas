@@ -2,30 +2,13 @@ from fastapi.testclient import TestClient
 from app.main import app
 
 client = TestClient(app)
-'''
-def test_registro_usuario():
-    novo_usuario = {
-        "username": "admin10",
-        "password": "1234"
-    }
-    response = client.post("/registro", json=novo_usuario)
-    assert response.status_code == 400
-    data = response.json()
-    #assert "id" in data
-    assert data["mensagem"] == "Usuário registrado com sucesso"
-
-def test_registro_usuario():
-    novo_usuario = {"username": "admin10", "password": "1234"}
-    response = client.post("/registro", json=novo_usuario)
-    assert response.status_code == 201
-    data = response.json()
-    assert data["mensagem"] == "Usuário registrado com sucesso"
-'''
     
-
+'''
+pytest -s -v tests/test_registro.py
+'''
 
 def test_registro_usuario_sucesso():
-    novo_usuario = {"username": "admin10", "password": "123456789"}
+    novo_usuario = {"username": "admin20", "password": "1234"}
     response = client.post("/registro", json=novo_usuario)
     assert response.status_code == 201
     data = response.json()
@@ -33,7 +16,7 @@ def test_registro_usuario_sucesso():
 
 def test_registro_usuario_duplicado():
     # Primeiro registro
-    usuario = {"username": "admin10", "password": "123456789"}
+    usuario = {"username": "admin20", "password": "1234"}
     client.post("/registro", json=usuario)
 
     # Segundo registro com mesmo username deve falhar

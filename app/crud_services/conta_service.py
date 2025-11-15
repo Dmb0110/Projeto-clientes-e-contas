@@ -74,19 +74,23 @@ def trocar(id: int,db: Session = Depends(get_db)):
 from fastapi import status,APIRouter,HTTPException,Depends,FastAPI
 from sqlalchemy.orm import Session
 from app.models.conta_model import Conta
+from app.models.cliente_model import Cliente
 from app.schemas.conta_schema import CriarConta,ContaOut,AtualizarConta,DeletarConta
 from app.database.session import get_db
 from typing import List
 
 router = APIRouter()
 
-#VERIFIQUEI O ClienteComContasSchema
-
 class ContaService:
     def __init__(self,db: Session = Depends(get_db)):
         self.db = db
 
     def enviar(self, criar: CriarConta) -> ContaOut:
+        if criar.cliente_id is not None:
+            cliente = self.db.query(Cliente).filter(Cliente.id == criar.cliente_id).first()
+            if not cliente:
+                raise HTTPException(status_code=400,detail='Cliente nao encontrado')
+        
         novo_conta = Conta(**criar.model_dump())
         self.db.add(novo_conta)
         self.db.commit()

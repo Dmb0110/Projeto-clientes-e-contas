@@ -62,7 +62,7 @@ def verificar_token(request: Request):
     except JWTError:
         raise HTTPException(status_code=401, detail="Token inválido")
 
-
+'''
 # Endpoint para registrar novo usuário
 @router.post(
     "/registro",
@@ -104,4 +104,4 @@ async def login(request: LoginUsuario,db: Session = Depends(get_db)):
 
     token = create_token({"sub": username})
     return {"access_token": token}
-
+'''

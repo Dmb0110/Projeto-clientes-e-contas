@@ -2,10 +2,6 @@ from fastapi import FastAPI
 from app.database.session import Base,engine
 from app.routers import api_router
 
-#app = FastAPI()
-
-
-
 app = FastAPI(
     title="API de Clientes e Contas",
     description="Gerencia clientes e suas contas bancárias",
@@ -14,10 +10,9 @@ app = FastAPI(
     redoc_url='/redoc'
 )
 
-
 Base.metadata.create_all(bind=engine)
 
-app.include_router(api_router,prefix='')
+app.include_router(api_router)
 
 '''
 Um dev pleno normalmente acrescentaria:

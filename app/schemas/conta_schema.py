@@ -5,7 +5,7 @@ class CriarConta(BaseModel):
     nome_do_banco: str
     numero_da_agencia: int
     numero_da_conta: int
-    cliente_id: int
+    cliente_id: Optional[int] = None
 
 class ContaOut(BaseModel):
     id: int
