@@ -1,8 +1,9 @@
-from fastapi import Request, HTTPException, Depends,APIRouter
+from fastapi import Request,HTTPException, Depends,APIRouter
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from jose import jwt, JWTError, ExpiredSignatureError
 from passlib.context import CryptContext
+from fastapi.security import HTTPBearer,HTTPAuthorizationCredentials
 from app.models_usuario.usuario import Usuario
 from app.database.session import get_db
 from app.schemas.cliente_schema import CriarUsuario,LoginUsuario
@@ -17,6 +18,9 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Criptografia de senha
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# Esquema de segurança pra Sweagger
+security = HTTPBearer()
 
 # Verifica se a senha fornecida corresponde ao hash
 def verify_password(plain: str, hashed: str) -> bool:

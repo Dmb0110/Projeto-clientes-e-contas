@@ -1,4 +1,5 @@
 from fastapi import APIRouter,Depends,status
+from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
 from app.schemas.cliente_schema import CriarCliente,ClienteOut
 from app.database.session import get_db
@@ -6,6 +7,8 @@ from app.auth.jwt import verificar_token
 from app.crud_services.cliente_auth_service import ClienteService
 
 router = APIRouter()
+
+security = HTTPBearer()
 
 @router.post(
     "/",
