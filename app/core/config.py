@@ -1,13 +1,12 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv()            # Carrega as variáveis definidas no arquivo .env para o ambiente do sistema
 
-class Settings:
+class Settings:          # Define uma classe chamada 'Settings' para centralizar configurações do projeto
 
-    DATABASE_URL: str = os.getenv('DATABASE_URL')
+    DATABASE_URL: str = os.getenv('DATABASE_URL')  
+    # Cria um atributo chamado 'DATABASE_URL' e atribui o valor da variável de ambiente 'DATABASE_URL'.
+    # O ': str' é uma anotação de tipo, indicando que o valor esperado é uma string.
 
-    #if not DATABASE_URL:
-     #   DATABASE_URL = 'postgresql://postgres:davi9090@localhost:5432/banco_teste12_1'
-
-settings = Settings()
+settings = Settings()    # Instancia a classe 'Settings', criando um objeto com as configurações carregadas

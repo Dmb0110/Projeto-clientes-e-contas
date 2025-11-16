@@ -1,19 +1,21 @@
 from fastapi import FastAPI
-from app.database.session import Base,engine
+from app.database.session import Base, engine
 from app.routers import api_router
 
+# Instância principal da aplicação FastAPI
 app = FastAPI(
     title="API de Clientes e Contas",
     description="Gerencia clientes e suas contas bancárias",
     version="1.0.0",
-    docs_url='/docs',
-    redoc_url='/redoc'
+    docs_url="/docs",   # URL para Swagger UI
+    redoc_url="/redoc"  # URL para ReDoc
 )
 
+# Cria todas as tabelas definidas nos modelos ORM (Cliente, Conta, Usuario, etc.)
 Base.metadata.create_all(bind=engine)
 
+# Inclui o roteador principal que agrega todas as rotas da aplicação
 app.include_router(api_router)
-
 '''
 Um dev pleno normalmente acrescentaria:
 
@@ -28,17 +30,6 @@ Documentação mais completa (README com instruções de setup, exemplos de uso 
 Camadas de serviço para separar lógica de negócio do acesso ao banco.
 
 
-'''
-
-'''
-cliente:
-nome
-idade
-################
-banco:
-nome do banco
-numero da agencia
-numero da conta
 
 cliente_conta_api/
 ├── app/
