@@ -16,6 +16,7 @@ Base.metadata.create_all(bind=engine)
 
 # Inclui o roteador principal que agrega todas as rotas da aplicação
 app.include_router(api_router)
+
 '''
 Um dev pleno normalmente acrescentaria:
 
