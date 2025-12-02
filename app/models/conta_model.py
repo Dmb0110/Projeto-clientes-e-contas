@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship,Mapped,mapped_column
 from app.database.session import Base
 
 class Conta(Base):
@@ -15,14 +15,21 @@ class Conta(Base):
 
     __tablename__ = "conta"
 
-    id = Column(Integer, primary_key=True, index=True)
-    nome_do_banco = Column(String)
-    numero_da_agencia = Column(Integer)
-    numero_da_conta = Column(Integer)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    nome_do_banco: Mapped[str] = mapped_column(String(100),nullable=False)
+    numero_da_agencia: Mapped[str] = mapped_column(Integer, nullable=False)
+    numero_da_conta: Mapped[str] = mapped_column(Integer, nullable=False)
 
     # Chave estrangeira que conecta Conta → Cliente
-    cliente_id = Column(Integer, ForeignKey("cliente.id"), nullable=True)
+    cliente_id: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey("cliente.id", ondelete='CASCADE'), nullable=True
+    )
 
     # Relacionamento bidirecional com Cliente
     # back_populates='contas' → conecta com o atributo 'contas' definido em Cliente
-    cliente = relationship("Cliente", back_populates="contas")
+    cliente: Mapped['Cliente'] = relationship(
+        "Cliente",
+        back_populates="contas",
+        lazy='joined'
+    )

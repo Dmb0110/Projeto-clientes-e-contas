@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from app.routers2.routers_cliente import router as cliente
-from app.routers2.routers_conta import router as conta
+from app.routers2.routers_crud_cliente import router as cliente
+from app.routers2.routers_crud_conta import router as conta
 from app.routers2.routers_cliente_auth import router as cliente_auth
 from app.routers2.routers_conta_auth import router as conta_auth
 from app.routers2.routers_registro import router as registro

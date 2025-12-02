@@ -8,7 +8,7 @@ router = APIRouter()
 
 # Endpoint para registrar novo usuário
 @router.post(
-    "/registro",
+    "/",
     summary="Registrar novo usuário",
     status_code=201
 )

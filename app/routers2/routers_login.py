@@ -8,7 +8,7 @@ router = APIRouter()
 
 # Endpoint para login e geração de token JWT
 @router.post(
-    "/login",
+    "/",
     summary="Cria login para o usuário e gera o token",
     status_code=201
 )

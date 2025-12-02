@@ -4,7 +4,18 @@ from app.schemas import CriarConta, ContaOut, AtualizarConta, DeletarConta
 from typing import List
 
 # Prefixo '/conta' → todas as rotas começam com /conta
-router = APIRouter(prefix="/conta")
+router = APIRouter()
+
+
+@router.get(
+        '/health/',
+        summary='Verifica status da api',
+        status_code=status.HTTP_200_OK
+)
+def health_check():
+    # Endpoint simples de health check, útil para monitoramento e integração com ferramentas de observabilidade.
+    return {'Status': 'Ola desenvolvedor,tudo ok por aqui'}
+
 
 @router.post(
     "/",

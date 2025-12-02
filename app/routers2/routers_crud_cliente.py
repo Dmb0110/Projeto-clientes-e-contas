@@ -4,7 +4,18 @@ from app.schemas import CriarCliente, ClienteOut, ClienteComContasSchema, Atuali
 from typing import List
 
 # Prefixo '/cliente' → todas as rotas começam com /cliente
-router = APIRouter(prefix="/cliente")
+#router = APIRouter(prefix="/cliente")
+router = APIRouter()
+
+@router.get(
+        '/health/',
+        summary='Verifica status da api',
+        status_code=status.HTTP_200_OK
+)
+def health_check():
+    # Endpoint simples de health check, útil para monitoramento e integração com ferramentas de observabilidade.
+    return {'Status': 'Ola desenvolvedor,tudo ok por aqui'}
+
 
 @router.post(
     "/",

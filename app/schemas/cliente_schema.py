@@ -25,6 +25,7 @@ class CriarCliente(BaseModel):
     """
     nome: str = Field(..., min_length=3, max_length=100)
     idade: int = Field(..., ge=0,le=120)
+    email: Optional[str] = Field(None, max_Length=100)
 
 class ClienteOut(BaseModel):
     """
